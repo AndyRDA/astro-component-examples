@@ -1,0 +1,45 @@
+---
+const {pages} = Astro.props
+const {currentPage} = Astro.props
+
+---
+
+    <a class={currentPage === "home" ? "selected" : ""} href='/'>home</a>
+    <a class={currentPage === "about" ? "selected" : ""} href='/about'>about</a>
+    <a class={currentPage === "blog" ? "selected" : ""} href='/blog'>blog</a>
+
+<style>
+
+    a {
+        text-decoration: none;
+        text-transform: capitalize;
+        height: fit-content;
+        color: inherit;
+    }
+    .selected{
+        color: rgb(var(--accent-light, 192 192 192));
+        position: relative;
+    }
+    .selected::after{
+        content: '';
+        width: 90%;
+        height: .1em;
+        background-color: currentColor;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    a:hover, a:focus-visible{
+        color: rgb(var(--accent, 192 192 192));
+
+    }
+
+@media (max-width: 500px){
+    .nav{
+        flex-direction: column;
+        gap: 3em;
+    }
+}
+</style>

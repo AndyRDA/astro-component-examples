@@ -1,0 +1,24 @@
+---
+
+---
+
+	<a href="/contact">Contact</a>
+
+<style>
+	a {
+		--clr: var(--bg-contrast, white);
+		--bg-clr: var(--bg, black);
+		text-decoration: none;
+		color: var(--clr);
+		padding: .5em 1em;
+		border: 1px solid currentColor;
+		border-radius: 5px;
+		background-color: var(--bg-clr);
+		transition: all 200ms ease-in-out;
+	}
+
+	a:hover, a:focus-visible{
+		--clr: var(--bg, black);
+		--bg-clr: var(--bg-contrast, white);
+	}
+</style>

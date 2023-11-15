@@ -1,0 +1,166 @@
+---
+import ContactBtn from "./ContactBtn.astro";
+import Logo from "./Logo.astro";
+import NavLinks from "./NavLinks.astro";
+const { currentPage } = Astro.props;
+---
+
+<script>
+	const toggleBtn = document.getElementById("toggleBtn");
+	const navLinks = document.getElementById("navLinks");
+	// const contactBtn = document.getElementById('contactBtn')
+	const navbar = document.getElementById("navbar");
+	let menuIsOpen = false;
+	function menuToggle() {
+		if (navLinks.getAttribute("aria-expanded") === "false") {
+			navLinks.setAttribute("aria-expanded", "true"),
+				toggleBtn.setAttribute("aria-expanded", "true");
+		} else {
+			navLinks.setAttribute("aria-expanded", "false"),
+				toggleBtn.setAttribute("aria-expanded", "false");
+		}
+		// contactBtn.classList.toggle('menu-open')
+		// navbar.classList.toggle('menu-open')
+	}
+
+	toggleBtn.addEventListener("click", menuToggle);
+</script>
+
+<div class="navbar" id="navbar">
+	<div class="logo-wrapper">
+		<Logo />
+	</div>
+
+	<nav class="nav navLinks-wrapper" id="navLinks" aria-expanded="false">
+		<NavLinks currentPage={currentPage} />
+        <div class="contact-btn-wrapper">
+            <ContactBtn class="contact" />
+        </div>
+	</nav>
+
+	<button
+		type="button"
+		aria-controls="nav"
+		id="toggleBtn"
+		aria-expanded="false"
+		class="menu_toggle-wrapper"
+	>
+		<p class="sr-only">toggle menu</p>
+		<svg
+			class="hamburger"
+			stroke="var(--hamburger-color)"
+			fill="none"
+			viewBox="-10 -10 120 120"
+		>
+			<path
+				class="line"
+				stroke="var(--hamburger-color)"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				d="m 20 40 h 60 a 1 1 0 0 1 0 20 h -60 a 1 1 0 0 1 0 -40 h 30 v 70"
+			></path>
+		</svg>
+	</button>
+	
+</div>
+
+<style>
+	.sr-only:not(:focus):not(:active) {
+		clip: rect(0 0 0 0);
+		clip-path: inset(50%);
+		height: 1px;
+		overflow: hidden;
+		position: absolute;
+		white-space: nowrap;
+		width: 1px;
+	}
+	.navbar {
+		width: 100%;
+		height: var(--nav-height);
+		position: fixed;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+        gap: 2em;
+		padding: var(--gutter, 1em);
+		color: var(--bg-contrast, white);
+		background-color: var(--bg, black);
+        font-size: 1.215rem;
+
+	}
+	.nav {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 2em;
+	}
+	
+
+	#toggleBtn {
+		display: none;
+		background-color: transparent;
+		border: none;
+        position: absolute;
+        right: var(--gutter, 1em);
+        height: 100%;
+        min-width: 3em;
+	}
+
+	@media (max-width: 500px) {
+        .navbar{
+            --transition-duration: 350ms;
+
+        }
+		#toggleBtn {
+			display: grid;
+		}
+
+		.navLinks-wrapper {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+			position: fixed;
+            text-align: center;
+			background-color: var(--bg, black);
+			top: var(--nav-height);
+			height: calc(100dvh - var(--nav-height));
+			width: 100%;
+			z-index: 999;
+			left: 100%;
+			transition: var(--transition-duration) ease-in-out;
+		}
+
+		.navLinks-wrapper[aria-expanded="true"] {
+			left: 0;
+		}
+		.hamburger {
+			/* --hamburger-color: var(--accent, white); */
+			--hamburger-color: white;
+			width: var(--nav-height);
+			stroke-width: 10;
+			transition:
+				translate var(--transition-duration),
+				rotate var(--transition-duration);
+			transform-origin: center;
+		}
+		#toggleBtn[aria-expanded="true"] .hamburger {
+			rotate: 0.125turn;
+			translate: 0.3rem -0.3rem;
+		}
+
+		.hamburger .line {
+			transition: var(--transition-duration) ease-in-out;
+			stroke-dasharray: 60 31 60 300;
+		}
+
+		#toggleBtn[aria-expanded="true"] .line {
+			/* --hamburger-color: blue; */
+			stroke-dasharray: 60 105 60 300;
+			stroke-dashoffset: -90;
+		}
+	}
+</style>
+
+<!-- must pass currentPage={currentPage} through from Layout and page and pass to NavLinks-->
+<!-- add currentPage: string;  to interface props on Layout-->
+<!-- declare const {currentPage} = Astro.props on Layout, NavBar, NavLinks -->
